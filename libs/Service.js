@@ -64,7 +64,7 @@ module.exports = class Service {
 
       this[methodName] = function temp(...args) {
         return this._before()
-          .then(() => method.apply(self, args))
+          .then(() => method.apply(this, args))
           .tap(this._after.bind(this))
           .catch(this._break.bind(this));
       };
