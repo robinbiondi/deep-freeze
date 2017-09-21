@@ -1,5 +1,5 @@
 const Promise = require('bluebird');
-const DAO = require('../dal/dao.js');
+const DAO = require('./dao.js');
 const tools = require('../utils/tools');
 
 /**
