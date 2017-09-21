@@ -1,4 +1,4 @@
-const app = require('../../server/server');
+const Promise = require('bluebird');
 
 /**
  * The Class allowing to access object to a data
@@ -38,17 +38,9 @@ module.exports = class DAO {
    * @return  {Promise<object>} A transaction object
    */
   static startTransaction() {
-    return new Promise((resolve, reject) => {
-      app.models.User
-        .beginTransaction({
-          isolationLevel: app.models.User.Transaction.READ_COMMITTED,
-        }, (err, tx) => {
-          if (err)
-            return reject(err);
+    console.warn('[DEEP-FREEZE DAO.startTransaction] Function needs to be implemented in ', this);
 
-          return resolve(tx);
-        });
-    });
+    return Promise.resolve();
   }
 
   /**
@@ -59,14 +51,9 @@ module.exports = class DAO {
    * @return {Promise} Resolve or reject a promise
    */
   static commitTransaction(transaction) {
-    return new Promise((resolve, reject) => {
-      transaction.commit((err) => {
-        if (err)
-          return reject(err);
+    console.warn('[DEEP-FREEZE DAO.commitTransaction] Function needs to be implemented in ', this);
 
-        return resolve();
-      });
-    });
+    return Promise.resolve();
   }
 
   /**
@@ -77,14 +64,9 @@ module.exports = class DAO {
    * @return {Promise} Resolve or reject a promise
    */
   static rollbackTransaction(transaction) {
-    return new Promise((resolve, reject) => {
-      transaction.rollback((err) => {
-        if (err)
-          return reject(err);
+    console.warn('[DEEP-FREEZE DAO.rollbackTransaction] Function needs to be implemented in ', this);
 
-        return resolve();
-      });
-    });
+    return Promise.resolve();
   }
 
 };

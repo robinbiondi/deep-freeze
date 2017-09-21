@@ -1,5 +1,5 @@
 const Promise = require('bluebird');
-const Dao = require('../dal/dao.js');
+const DAO = require('../dal/dao.js');
 const tools = require('../utils/tools');
 
 /**
@@ -12,9 +12,11 @@ module.exports = class Service {
     if (new.target === Service)
       throw new TypeError('Cannot construct Abstract instances directly');
 
+    this.DAO = DAO;
     this.transaction = null;
     this.isMaster = false;
     this.methods = [];
+
 
     if (!transaction)
       this.isMaster = true;
@@ -97,22 +99,22 @@ module.exports = class Service {
   getDao(ModelDAO) {
     let instance = null;
 
-    ModelDAO = ModelDAO || this;
+    ModelDAO = ModelDAO || this.DAO;
     instance = new ModelDAO(this.transaction);
 
     return Promise.resolve(instance);
   }
 
   _startTransaction() {
-    return Dao.startTransaction();
+    return this.DAO.startTransaction();
   }
 
   _commitTransaction() {
-    return Dao.commitTransaction(this.transaction);
+    return this.DAO.commitTransaction(this.transaction);
   }
 
   _rollbackTransaction() {
-    return Dao.rollbackTransaction(this.transaction);
+    return this.DAO.rollbackTransaction(this.transaction);
   }
 
   _before() {
