@@ -62,7 +62,7 @@ module.exports = class Service {
     this.methods.forEach((method) => {
       const methodName = tools.getFunctionName(method);
 
-      this[methodName] = function temp(...args) {
+      this[methodName] = (...args) => {
         return this._before()
           .then(() => method.apply(this, args))
           .tap(this._after.bind(this))
