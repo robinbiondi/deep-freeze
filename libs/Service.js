@@ -49,6 +49,7 @@ module.exports = class Service {
    */
   init() {
     let promise = Promise.resolve(this);
+    console.log('init');
 
     if (!this.transaction) {
       promise = this._startTransaction()
