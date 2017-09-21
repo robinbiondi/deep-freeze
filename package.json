@@ -24,5 +24,8 @@
   "homepage": "https://github.com/robinbiondi/deep-freeze#readme",
   "devDependencies": {
     "bluebird": "^3.5.0"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0"
   }
 }
