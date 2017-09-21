@@ -1,7 +1,7 @@
-const DAO = require('./libs/DAO');
-const Service = require('./libs/Service');
+const IDAO = require('./libs/IDAO');
+const IService = require('./libs/IService');
 
 module.exports = {
-  DAO,
-  Service,
+  IDAO,
+  IService,
 };

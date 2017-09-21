@@ -1,6 +1,6 @@
 const Promise = require('bluebird');
 const DAO = require('./dao.js');
-const tools = require('../utils/tools');
+const Tools = require('../utils/Tools');
 
 /**
  * The class allowing business logic for a Model
@@ -60,7 +60,7 @@ module.exports = class Service {
     }
 
     this.methods.forEach((method) => {
-      const methodName = tools.getFunctionName(method);
+      const methodName = Tools.getFunctionName(method);
 
       this[methodName] = (...args) => {
         return this._before()
