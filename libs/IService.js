@@ -1,5 +1,5 @@
 const Promise = require('bluebird');
-const DAO = require('./dao.js');
+const IDAO = require('./IDAO.js');
 const Tools = require('../utils/Tools');
 
 /**
@@ -12,7 +12,7 @@ module.exports = class Service {
     if (new.target === Service)
       throw new TypeError('Cannot construct Abstract instances directly');
 
-    this.DAO = DAO;
+    this.DAO = IDAO;
     this.transaction = null;
     this.isMaster = false;
     this.methods = [];
