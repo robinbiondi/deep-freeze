@@ -1,4 +1,5 @@
 const Promise = require('bluebird');
+const tools = require('../utils/tools');
 
 /**
  * The Class allowing to access object to a data
@@ -38,7 +39,7 @@ module.exports = class DAO {
    * @return  {Promise<object>} A transaction object
    */
   static startTransaction() {
-    console.warn('[DEEP-FREEZE DAO.startTransaction] Function needs to be implemented in ', this);
+    console.warn('[DEEP-FREEZE DAO.startTransaction] Function needs to be implemented in ', tools.getClassName(this));
 
     return Promise.resolve();
   }
@@ -51,7 +52,7 @@ module.exports = class DAO {
    * @return {Promise} Resolve or reject a promise
    */
   static commitTransaction(transaction) {
-    console.warn('[DEEP-FREEZE DAO.commitTransaction] Function needs to be implemented in ', this);
+    console.warn('[DEEP-FREEZE DAO.commitTransaction] Function needs to be implemented in ', tools.getClassName(this));
 
     return Promise.resolve();
   }
@@ -64,7 +65,7 @@ module.exports = class DAO {
    * @return {Promise} Resolve or reject a promise
    */
   static rollbackTransaction(transaction) {
-    console.warn('[DEEP-FREEZE DAO.rollbackTransaction] Function needs to be implemented in ', this);
+    console.warn('[DEEP-FREEZE DAO.rollbackTransaction] Function needs to be implemented in ', tools.getClassName(this));
 
     return Promise.resolve();
   }

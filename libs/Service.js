@@ -49,7 +49,6 @@ module.exports = class Service {
    */
   init() {
     let promise = Promise.resolve(this);
-    console.log('init');
 
     if (!this.transaction) {
       promise = this._startTransaction()
@@ -107,17 +106,14 @@ module.exports = class Service {
   }
 
   _startTransaction() {
-    console.log('_START TRANSACTION');
     return this.DAO.startTransaction();
   }
 
   _commitTransaction() {
-    console.log('_COMMIT TRANSACTION');
     return this.DAO.commitTransaction(this.transaction);
   }
 
   _rollbackTransaction() {
-    console.log('_ROLLBACK TRANSACTION');
     return this.DAO.rollbackTransaction(this.transaction);
   }
 
