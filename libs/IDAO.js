@@ -3,13 +3,14 @@ const Tools = require('../utils/Tools');
 
 /**
  * The Class allowing to access object to a data
- * @interface DAO
+ * @interface IDAO
  */
-module.exports = class DAO {
+module.exports = class IDAO {
 
   constructor (transaction) {
     this.transaction = transaction;
-    if (new.target === DAO)
+    this.Model = null;
+    if (new.target === IDAO)
       throw new TypeError('Cannot construct Abstract instances directly');
 
     return this;
@@ -19,9 +20,9 @@ module.exports = class DAO {
    * Return an initialized instance of the dao wanted creating transaction
    * @function getInstance
    * @static
-   * @memberof DAO
-   * @param {Model<DAO>} ModelDao The dao we want to instantiate, default to current
-   * @returns {DAO} DAO instan
+   * @memberof IDAO
+   * @param {Model<IDAO>} ModelDao The dao we want to instantiate, default to current
+   * @returns {IDAO} IDAO instan
    */
   static getInstance (ModelDao) {
     let instance = null;
@@ -35,11 +36,11 @@ module.exports = class DAO {
   /**
    * Start a transaction and return it as a promise.
    * @function startTransaction
-   * @memberof DAO
+   * @memberof IDAO
    * @return  {Promise<object>} A transaction object
    */
   static startTransaction() {
-    console.warn('[DEEP-FREEZE DAO.startTransaction] Function needs to be implemented in ', Tools.getClassName(this));
+    console.warn('[DEEP-FREEZE IDAO.startTransaction] Function needs to be implemented in ', Tools.getClassName(this));
 
     return Promise.resolve();
   }
@@ -47,12 +48,12 @@ module.exports = class DAO {
   /**
    * Commit a transaction.
    * @function commitTransaction
-   * @memberof DAO
+   * @memberof IDAO
    * @arg {object} transaction THe transavtion object
    * @return {Promise} Resolve or reject a promise
    */
   static commitTransaction(transaction) {
-    console.warn('[DEEP-FREEZE DAO.commitTransaction] Function needs to be implemented in ', Tools.getClassName(this));
+    console.warn('[DEEP-FREEZE IDAO.commitTransaction] Function needs to be implemented in ', Tools.getClassName(this));
 
     return Promise.resolve();
   }
@@ -60,12 +61,12 @@ module.exports = class DAO {
   /**
    * Rollback a transaction.
    * @function rollbackTransaction
-   * @memberof DAO
+   * @memberof IDAO
    * @arg {object} transaction THe transavtion object
    * @return {Promise} Resolve or reject a promise
    */
   static rollbackTransaction(transaction) {
-    console.warn('[DEEP-FREEZE DAO.rollbackTransaction] Function needs to be implemented in ', Tools.getClassName(this));
+    console.warn('[DEEP-FREEZE IDAO.rollbackTransaction] Function needs to be implemented in ', Tools.getClassName(this));
 
     return Promise.resolve();
   }

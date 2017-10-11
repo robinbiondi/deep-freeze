@@ -4,17 +4,18 @@ const Tools = require('../utils/Tools');
 
 /**
  * The class allowing business logic for a Model
- * @interface Service
+ * @interface IService
  */
-module.exports = class Service {
+module.exports = class IService {
 
   constructor(transaction) {
-    if (new.target === Service)
+    if (new.target === IService)
       throw new TypeError('Cannot construct Abstract instances directly');
 
     this.DAO = IDAO;
     this.transaction = null;
     this.isMaster = false;
+    this.isEntryIdentified = false;
     this.methods = [];
 
 
@@ -27,10 +28,10 @@ module.exports = class Service {
   /**
    * Return an initialized instance of the service wanted creating transaction
    * @function getInstance
-   * @memberof Service
+   * @memberof IService
    * @static
-   * @param {Model<Service>} ModelService The service we want to instantiate, default to current
-   * @return {Promise<Service>} A promise resolving the instance
+   * @param {Model<IService>} ModelService The service we want to instantiate, default to current
+   * @return {Promise<IService>} A promise resolving the instance
    */
   static getInstance(ModelService) {
     let instance = null;
@@ -45,7 +46,7 @@ module.exports = class Service {
    * Initialise instance, its methods then returns it
    * @function init
    * @memberof Service
-   * @return {Promise<Service>} Return the instance of the service
+   * @return {Promise<IService>} Return the instance of the service
    */
   init() {
     let promise = Promise.resolve(this);
@@ -63,10 +64,17 @@ module.exports = class Service {
       const methodName = Tools.getFunctionName(method);
 
       this[methodName] = (...args) => {
+        let isEntry = false;
+
+        if (!this.isEntryIdentified) {
+          isEntry = true;
+          this.isEntryIdentified = true;
+        }
+
         return this._before()
           .then(() => method.apply(this, args))
-          .tap(this._after.bind(this))
-          .catch(this._break.bind(this));
+          .tap(this._after.bind(this, isEntry))
+          .catch(this._break.bind(this, isEntry));
       };
     });
 
@@ -76,9 +84,9 @@ module.exports = class Service {
   /**
    * Return an initialized instance of the service wanted passing transactions
    * @function getService
-   * @memberof Service
-   * @param {Model<Service>} ModelService The service we want to instantiate, default to current
-   * @return {Promise<Service>} A promise resolving an instance of service
+   * @memberof IService
+   * @param {Model<IService>} ModelService The service we want to instantiate, default to current
+   * @return {Promise<IService>} A promise resolving an instance of service
    */
   getService(ModelService) {
     let instance = null;
@@ -92,7 +100,7 @@ module.exports = class Service {
   /**
    * Return an initialized instance of the service wanted passing transactions
    * @function getDao
-   * @memberof Service
+   * @memberof IService
    * @param {Model<DAO>} ModelDAO The service we want to instantiate, default to current
    * @return {Promise<DAO>} A promise resolving an instance of a Dao
    */
@@ -121,15 +129,15 @@ module.exports = class Service {
     return Promise.resolve();
   }
 
-  _after() {
-    if (this.isMaster)
+  _after(isEntry) {
+    if (isEntry)
       return this._commitTransaction();
 
     return null;
   }
 
-  _break(err) {
-    if (this.isMaster) {
+  _break(isEntry, err) {
+    if (isEntry) {
       return this._rollbackTransaction()
       .then(() => {
         throw err;
